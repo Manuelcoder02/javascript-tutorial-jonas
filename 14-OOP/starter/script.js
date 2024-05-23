@@ -255,8 +255,7 @@ const Person = function(firstName, birthYear) {
    }
 
    const Student = function(firstName, birthYear, course) {
-      this.firstName = firstName;
-      this.birthYear = birthYear;
+      Person.call(this, firstName, birthYear);
       this.course = course;
    }
 
