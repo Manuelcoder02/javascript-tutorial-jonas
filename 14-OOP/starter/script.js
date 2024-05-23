@@ -208,36 +208,48 @@
 // sarah.init('Sarah', 1979);
 // sarah.calcAge();
 
-// CODING CHALLENGE 2
-class CarCL {
-   constructor(make, speed){
-      this.make = make;
-      this.speed = speed;
-   }
+// // CODING CHALLENGE 2
+// class CarCL {
+//    constructor(make, speed){
+//       this.make = make;
+//       this.speed = speed;
+//    }
 
-   calcAcc() {
-      this.speed += 10;
-      console.log(`${this.make} is going at ${this.speed} km/h`);
-   }
+//    calcAcc() {
+//       this.speed += 10;
+//       console.log(`${this.make} is going at ${this.speed} km/h`);
+//    }
 
-   calcBrake() {
-      this.speed -= 5;
-      console.log(`${this.make} is going at ${this.speed} km/h`);
-   }
+//    calcBrake() {
+//       this.speed -= 5;
+//       console.log(`${this.make} is going at ${this.speed} km/h`);
+//    }
 
-   get speedUS() {
-      return this.speed / 1.6;
-   }
+//    get speedUS() {
+//       return this.speed / 1.6;
+//    }
 
-   set speedUS(sp) {
-      this.speed = sp * 1.6;
-   }
+//    set speedUS(sp) {
+//       this.speed = sp * 1.6;
+//    }
+// }
+
+// const ford = new CarCL('Ford', 120);
+// console.log(ford);
+// ford.calcAcc();
+// ford.calcBrake();
+// console.log(ford.speedUS);
+// ford.speedUS = 20;
+// console.log(ford);
+
+// DAY 107: INHERITANCE BETWEEN CLASSES: CONSTRUCTOR FUNCTION
+const Person = function(firstName, birthYear) {
+
+       this.firstName = firstName;
+       this.birthYear = birthYear;
+   
 }
 
-const ford = new CarCL('Ford', 120);
-console.log(ford);
-ford.calcAcc();
-ford.calcBrake();
-console.log(ford.speedUS);
-ford.speedUS = 20;
-console.log(ford);
+ Person.prototype.calcAge = function() {
+       console.log(2037 - this.birthYear);
+   }
