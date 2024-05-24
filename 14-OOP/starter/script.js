@@ -294,5 +294,10 @@ const EV = function(make, speed, charge){
 
 EV.prototype = Object.create(Car)
 
+EV.prototype.chargeBattery = function(chargeTo) {
+   // 'Tesla going at 140 km/h, with a charge of 22%'
+   console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}%`);
+}
+
 const tesla = new EV('Tesla', 140, 90)
-console.log(tesla);
+tesla.chargeBattery()
