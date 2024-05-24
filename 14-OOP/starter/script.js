@@ -280,28 +280,125 @@
 //    Student.prototype.constructor = Student;
 //    console.dir(Student.prototype.constructor)
 
-// CODING CHALLENGE 3
-const Car = function(make, speed) {
-   this.make = make;
-   this.speed = speed;
-}
+// // CODING CHALLENGE 3
+// const Car = function(make, speed) {
+//    this.make = make;
+//    this.speed = speed;
+// }
+
+// Car.prototype.calcAcc = function(){
+//    this.speed += 10;
+//    console.log(`${this.make} is going at ${this.speed} km/h`);
+// }
+// Car.prototype.calcBrake = function(){
+//    this.speed -= 5;
+//    console.log(`${this.make} is going at ${this.speed} km/h`);
+// }
+
+// const EV = function(make, speed, charge){
+//    Car.call(this, make, speed);
+//    this.charge = charge;
+// }
+
+// EV.prototype = Object.create(Car.prototype);
+
+// EV.prototype.chargeBattery = function(chargeTo) {
+//    this.charge = chargeTo;
+// }
+// EV.prototype.accelerate = function(){
+//    this.speed += 20;
+//    this.charge -= 1;
+// // 'Tesla going at 140 km/h, with a charge of 22%'
+// console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}%`);
+// }
+// const tesla = new EV('Tesla', 140, 23)
+// tesla.chargeBattery(90);
+// console.log(tesla);
+// tesla.accelerate();
+// tesla.accelerate();
+// tesla.calcBrake();
+// tesla.accelerate();
 
 
-const EV = function(make, speed, charge){
-   Car.call(this, make, speed);
-   this.charge = charge;
-}
+// INHERITANCE BETWEEN CLASSES - ES6 CLASSES
+// class PersonCL {
+//    constructor(fullName, birthYear) {
+//       this.fullName = fullName;
+//       this.birthYear = birthYear;
+//    }
+  
+//    calcAge(){
+//       console.log(2024 - this.birthYear);
+//    }
 
-EV.prototype = Object.create(Car);
+//    greet(){
+//       console.log(`Hey ${this.fullName}`);
+//    }
 
-EV.prototype.chargeBattery = function(chargeTo) {
+//    get age(){
+//       return 2024 - this.birthYear;
+//    }
+
+//    set fullName(name){
+//       if (name.includes(' ')) this._fullName = name;
+//       else alert(`${name} is not a full name`);
+//    }
+
+//    get fullName(){
+//       return this._fullName;
+//    }
+
+//    static hey() {
+//       console.log('Hey there!');
+//    console.log(this);
+//    }
+// }
+
+// class StudentCL extends PersonCL {
+//    constructor(fullName, birthYear, course){
+//       // Always happen first because it will set the this keyword
+//       super(fullName, birthYear)
+//       this.course = course;
+//    }
    
+//    introduce() {
+//       console.log(`My name is ${this.fullName} and I'm studying ${this.course}`);
+//    }
+
+//    calcAge() {
+//       console.log(`I'm ${2024 - this.birthYear} years old but I feel more like a ${(2024 - this.birthYear) + 10} years old`);
+//    }
+// }
+
+// const martha = new StudentCL('Martha Jones', 1990, 'Computer Science');
+// martha.introduce();
+// martha.calcAge();
+
+// INHERITANCE BETWEEN CLASSES - OBJECT.CREATE()
+const PersonProto = {
+   calcAge() {
+      console.log(2024 - this.birthYear);
+   },
+
+   init(firstName, birthYear){
+      this.firstName = firstName;
+      this.birthYear = birthYear;
+   }
 }
-EV.prototype.accelerate = function(){
-   this.speed += 20;
-   this.charge -= 1;
-// 'Tesla going at 140 km/h, with a charge of 22%'
-console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}%`);
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+const jay = Object.create(StudentProto);
+
+StudentProto.init = function(firstName, birthYear, course) {
+   PersonProto.init.call(this, firstName, birthYear);
+   this.course = course;
 }
-const tesla = new EV('Tesla', 140, 90)
-tesla.chargeBattery();
+
+StudentProto.introduce = function() {
+    console.log(`My name is ${this.firstName} and I'm studying ${this.course}`);
+}
+ jay.init('Jay', 2010, 'Computer Science');
+jay.introduce();
+jay.calcAge();
