@@ -243,39 +243,56 @@
 // console.log(ford);
 
 // DAY 107: INHERITANCE BETWEEN CLASSES: CONSTRUCTOR FUNCTION
-const Person = function(firstName, birthYear) {
+// const Person = function(firstName, birthYear) {
 
-       this.firstName = firstName;
-       this.birthYear = birthYear;
+//        this.firstName = firstName;
+//        this.birthYear = birthYear;
    
+// }
+
+//  Person.prototype.calcAge = function() {
+//        console.log(2037 - this.birthYear);
+//    }
+
+//    const Student = function(firstName, birthYear, course) {
+//       Person.call(this, firstName, birthYear);
+//       this.course = course;
+//    }
+
+//    // Linking prototype
+//    Student.prototype = Object.create(Person.prototype);
+
+//    Student.prototype.introduce = function(){
+//       console.log(`My name is ${this.firstName} and I'm studying ${this.course}`);
+//    }
+
+//    const mike = new Student('Mike', 2020, 'Computer Science');
+//    mike.introduce();
+//    mike.calcAge();
+
+//    console.log(mike.__proto__);
+//    console.log(mike.__proto__.__proto__);
+
+//    console.log(mike instanceof Student);
+//    console.log(mike instanceof Person);
+//    console.log(mike instanceof Object);
+
+//    Student.prototype.constructor = Student;
+//    console.dir(Student.prototype.constructor)
+
+// CODING CHALLENGE 3
+const Car = function(make, speed) {
+   this.make = make;
+   this.speed = speed;
 }
 
- Person.prototype.calcAge = function() {
-       console.log(2037 - this.birthYear);
-   }
 
-   const Student = function(firstName, birthYear, course) {
-      Person.call(this, firstName, birthYear);
-      this.course = course;
-   }
+const EV = function(make, speed, charge){
+   Car.call(this, make, speed);
+   this.charge = charge;
+}
 
-   // Linking prototype
-   Student.prototype = Object.create(Person.prototype);
+EV.prototype = Object.create(Car)
 
-   Student.prototype.introduce = function(){
-      console.log(`My name is ${this.firstName} and I'm studying ${this.course}`);
-   }
-
-   const mike = new Student('Mike', 2020, 'Computer Science');
-   mike.introduce();
-   mike.calcAge();
-
-   console.log(mike.__proto__);
-   console.log(mike.__proto__.__proto__);
-
-   console.log(mike instanceof Student);
-   console.log(mike instanceof Person);
-   console.log(mike instanceof Object);
-
-   Student.prototype.constructor = Student;
-   console.dir(Student.prototype.constructor)
+const tesla = new EV('Tesla', 140, 90)
+console.log(tesla);
