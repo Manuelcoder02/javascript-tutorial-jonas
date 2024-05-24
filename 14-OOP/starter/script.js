@@ -414,6 +414,20 @@ class Account {
 
       console.log(`Thanks for opening an account, ${owner}`);
    }
+
+   deposit(val) {
+      this.movements.push(val)
+   }
+
+   withdrawal(val) {
+      this.deposit(-val);
+   }
 }
 
 const acc1 = new Account('Emmanuel', 'NGN', 1111);
+
+// acc1.movements.push(250);
+// acc1.movements.push(-140);
+acc1.deposit(250);
+acc1.withdrawal(140);
+console.log(acc1);
