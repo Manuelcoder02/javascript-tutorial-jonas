@@ -542,3 +542,4 @@ const rivian = new EVCL('Rivian', 120, 23);
 rivian.accelerate();
 rivian.accelerate();
 rivian.chargeBattery(50).accelerate().accelerate().chargeBattery(100).accelerate().calcBrake().accelerate().accelerate();
+console.log(rivian.speedUS);
