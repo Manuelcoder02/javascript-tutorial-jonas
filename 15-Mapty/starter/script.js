@@ -1,6 +1,8 @@
 'use strict';
 
 // prettier-ignore
+
+// storing element in a variable
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const form = document.querySelector('.form');
