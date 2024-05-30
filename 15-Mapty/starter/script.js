@@ -27,9 +27,24 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-L.marker(coords).addTo(map)
-    .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+
+    map.on('click', function(mapEvent){
+        console.log(mapEvent);
+        const { lat, lng } = mapEvent.latlng;
+
+        console.log(lat, lng);
+        L.marker([lat, lng]).addTo(map)
+    .bindPopup(L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        className: '.running-popup';
+    }))
     .openPopup();
+
+    })
+
     }, function() {
         alert('Could not get your position!')
     })
+
+   
