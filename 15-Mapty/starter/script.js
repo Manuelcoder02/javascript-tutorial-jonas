@@ -37,8 +37,10 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     .bindPopup(L.popup({
         maxWidth: 250,
         minWidth: 100,
-        className: '.running-popup';
-    }))
+        autoClose: false,
+        closeOnClick: false,
+        className: 'running-popup',
+    })).setPopupContent('Workout')
     .openPopup();
 
     })
