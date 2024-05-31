@@ -44,6 +44,11 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
    
     form.addEventListener('submit', function(e){
         e.preventDefault();
+
+        // clear input fields
+        inputCadence.value = inputDistance.value = inputDuration.value = inputElevation.value = '';
+
+        // Display marker
             console.log(mapEvent);
         const { lat, lng } = mapEvent.latlng;
 
