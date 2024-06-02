@@ -16,20 +16,13 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class App {
     constructor(){}
 
-    _getPosition(){}
+    _getPosition(){if (navigator.geolocation) 
+        navigator.geolocation.getCurrentPosition(this._loadMap, function() {
+            alert('Could not get your position!')
+        })
+    }
 
-    _loadMap(){}
-
-    _showForm(){}
-
-    _toggleElevationField(){}
-
-    _newWorkout(){}
-}
-
-let map, mapEvent;
-if (navigator.geolocation) 
-    navigator.geolocation.getCurrentPosition(function(position) {
+    _loadMap(position){
         const {latitude} = position.coords;
         const {longitude} = position.coords;
         console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
@@ -50,10 +43,16 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     
 
     })
+    }
 
-    }, function() {
-        alert('Could not get your position!')
-    })
+    _showForm(){}
+
+    _toggleElevationField(){}
+
+    _newWorkout(){}
+}
+
+let map, mapEvent;
 
    
     form.addEventListener('submit', function(e){
