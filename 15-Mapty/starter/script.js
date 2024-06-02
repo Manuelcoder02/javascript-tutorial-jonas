@@ -13,8 +13,11 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+let map, mapEvent;
 class App {
-    constructor(){}
+    constructor(){
+        this._getPosition()
+    }
 
     _getPosition(){if (navigator.geolocation) 
         navigator.geolocation.getCurrentPosition(this._loadMap, function() {
@@ -52,8 +55,7 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     _newWorkout(){}
 }
 
-let map, mapEvent;
-
+const app = new App();
    
     form.addEventListener('submit', function(e){
         e.preventDefault();
