@@ -19,10 +19,17 @@ class App {
     #mapEvent
     constructor(){
         this._getPosition();
+
+        form.addEventListener('submit', this._newWorkout.bind(this))
+    
+        inputType.addEventListener('change', function(){
+            inputElevation.closest('.form__row').classList.toggle('form__row--hidden')
+            inputCadence.closest('.form__row').classList.toggle('form__row--hidden')
+        })
     }
 
     _getPosition(){if (navigator.geolocation) 
-        navigator.geolocation.getCurrentPosition(this._loadMap, function() {
+        navigator.geolocation.getCurrentPosition(this._loadMap.bind(this), function() {
             alert('Could not get your position!')
         })
     }
@@ -41,46 +48,38 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 }).addTo(this.#map);
 
 // Handling click events on map
-    this.#map.on('click', function(mapE){
+    this.#map.on('click', this._showForm.bind(this) )
+    }
+
+    _showForm(mapE){
         this.#mapEvent = mapE;
         form.classList.remove('hidden');
         inputDistance.focus();
-    
-
-    })
     }
-
-    _showForm(){}
 
     _toggleElevationField(){}
 
-    _newWorkout(){}
+    _newWorkout(e){
+        e.preventDefault();
+    
+            // clear input fields
+            inputCadence.value = inputDistance.value = inputDuration.value = inputElevation.value = '';
+    
+            // Display marker
+            const { lat, lng } = this.#mapEvent.latlng;
+    
+            L.marker([lat, lng]).addTo(this.#map)
+        .bindPopup(L.popup({
+            maxWidth: 250,
+            minWidth: 100,
+            autoClose: false,
+            closeOnClick: false,
+            className: 'running-popup',
+        })).setPopupContent('Workout')
+        .openPopup();
+    }
 }
 
 const app = new App();
    
-    form.addEventListener('submit', function(e){
-        e.preventDefault();
-
-        // clear input fields
-        inputCadence.value = inputDistance.value = inputDuration.value = inputElevation.value = '';
-
-        // Display marker
-            console.log(mapEvent);
-        const { lat, lng } = mapEvent.latlng;
-
-        L.marker([lat, lng]).addTo(map)
-    .bindPopup(L.popup({
-        maxWidth: 250,
-        minWidth: 100,
-        autoClose: false,
-        closeOnClick: false,
-        className: 'running-popup',
-    })).setPopupContent('Workout')
-    .openPopup();
-    })
-
-    inputType.addEventListener('change', function(){
-        inputElevation.closest('.form__row').classList.toggle('form__row--hidden')
-        inputCadence.closest('.form__row').classList.toggle('form__row--hidden')
-    })
+    
