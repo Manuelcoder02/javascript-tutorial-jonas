@@ -20,7 +20,7 @@ class Workout {
     date = new Date();
     id = (new Date() + '').slice(-10);
     constructor(coords, distance, duration) {
-        this.coords = coords;
+        this.coords = coords; // [lat, lng]
         this.distance = distance; // in km
         this.duration = duration; // in min
     }
@@ -54,6 +54,9 @@ class Cycling extends Workout {
     }
 }
 
+const run1 = new Running([31, -12], 5.2, 24, 178);
+const cycling1 = new Cycling([31, -12], 27, 95, 523);
+console.log(run1, cycling1);
 ////////////////////////////////////////////////////////////
 // APPLICATION ARCHITECTURE 
 class App {
