@@ -35,7 +35,7 @@ class Running extends Workout {
 
     calcPace(){
         // min/km
-        this.pace = this.distance / this.duration;
+        this.pace = this.duration / this.distance;
         return this.pace;
     }
 }
@@ -49,10 +49,13 @@ class Cycling extends Workout {
 
     calcSpeed(){
         // km/h
-        this.speed = this.duration / this.distance;
+        this.speed = this.distance / (this.duration / 60);
         return this.speed;
     }
 }
+
+////////////////////////////////////////////////////////////
+// APPLICATION ARCHITECTURE 
 class App {
     #map
     #mapEvent
