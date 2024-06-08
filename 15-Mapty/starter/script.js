@@ -62,6 +62,7 @@ class Cycling extends Workout {
 class App {
     #map
     #mapEvent
+    #workouts = [];
     constructor(){
         this._getPosition();
 
@@ -115,7 +116,8 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         const type = inputType.value;
         const distance = +inputDistance.value;
         const duration = +inputDuration.value;
-
+        const { lat, lng } = this.#mapEvent.latlng;
+        let workout;
         
         // If workout running, create a running object
         if (type === 'running') {
@@ -129,6 +131,9 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
                 !allPositives(distance, duration, cadence)
             )
                 return alert('Input has to be positive numbers!')
+
+                workout = new Running([lat, lng], distance, duration, cadence);
+
         }
         // If workout cycling, create a cycling object
         if (type === 'cycling') {
@@ -137,10 +142,13 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             if(!validInputs(distance, duration, elevation) ||
             !allPositives(distance, duration))
                 return alert('Input has to be positive numbers!')
+
+                workout = new Cycling([lat, lng], distance, duration, elevation);
         }
         // Add new objects to the workout array
+        this.#workouts.push(workout);
         // Display marker
-        const { lat, lng } = this.#mapEvent.latlng;
+        
     
         L.marker([lat, lng]).addTo(this.#map)
     .bindPopup(L.popup({
