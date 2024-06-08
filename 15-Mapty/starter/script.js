@@ -29,7 +29,7 @@ class Workout {
        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
        'September', 'October', 'November', 'December'];
 
-       this.description = `${this.type[0].toUppercase()}${this.type.slice(1)} on
+       this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on
        ${months[this.date.getMonth()]} ${this.date.getDate()}`
     }
 }
