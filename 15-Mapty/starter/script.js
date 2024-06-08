@@ -27,6 +27,7 @@ class Workout {
 }
 
 class Running extends Workout {
+    type = 'running';
     constructor(coords, distance, duration, cadence) {
         super(coords, distance, duration);
         this.cadence = cadence;
@@ -41,6 +42,7 @@ class Running extends Workout {
 }
 
 class Cycling extends Workout {
+    type = 'cycling';
     constructor(coords, distance, duration, elevationGain) {
         super(coords, distance, duration);
         this.elevationGain = elevationGain;
@@ -148,10 +150,9 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         // Add new objects to the workout array
         this.#workouts.push(workout);
         console.log(workout);
-        // Display marker
-       this.renderWorkoutMarker(workout);
-
+        
         // Render workout on map as a marker
+        this.renderWorkoutMarker(workout);
 
         // Render workout on the list
         
@@ -161,15 +162,16 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     
     }
     renderWorkoutMarker(workout) {
-        L.marker([lat, lng]).addTo(this.#map)
+        L.marker(workout.coords)
+        .addTo(this.#map)
         .bindPopup(L.popup({
         maxWidth: 250,
         minWidth: 100,
         autoClose: false,
         closeOnClick: false,
-        className: `${type}-popup`,
+        className: `${workout.type}-popup`,
     }))
-    .setPopupContent(workout.distance)
+    .setPopupContent('Workout')
     .openPopup();
     }
 }
