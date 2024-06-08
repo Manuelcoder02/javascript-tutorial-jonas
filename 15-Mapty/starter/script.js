@@ -3,7 +3,7 @@
 // prettier-ignore
 
 // storing element in a variable
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
@@ -24,6 +24,14 @@ class Workout {
         this.distance = distance; // in km
         this.duration = duration; // in min
     }
+
+    _setDescription() {
+       const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+       'September', 'October', 'November', 'December'];
+
+       this.description = `${this.type[0].toUppercase()}${this.type.slice(1)} on
+       ${months[this.date.getMonth()]} ${this.date.getDate()}`
+    }
 }
 
 class Running extends Workout {
@@ -32,6 +40,7 @@ class Running extends Workout {
         super(coords, distance, duration);
         this.cadence = cadence;
         this.calcPace();
+        this._setDescription();
     }
 
     calcPace(){
@@ -47,6 +56,7 @@ class Cycling extends Workout {
         super(coords, distance, duration);
         this.elevationGain = elevationGain;
         this.calcSpeed();
+        this._setDescription();
     }
 
     calcSpeed(){
