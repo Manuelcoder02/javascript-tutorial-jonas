@@ -165,7 +165,7 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         this._renderWorkoutMarker(workout);
 
         // Render workout on the list
-        this._renderWorkout();
+        this._renderWorkout(workout);
     
         // Hide input form + clear input fields
             inputCadence.value = inputDistance.value = inputDuration.value = inputElevation.value = '';
@@ -213,7 +213,7 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             <span class="workout__unit">spm</span>
           </div>
         </li>`;
-
+        }
 
         if (workout.type === 'cycling') {
             html += `
@@ -229,7 +229,8 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
           </div>
         </li>`
         }
-        }
+        
+        form.insertAdjacentHTML('afterend', html);
     }
 }
 
