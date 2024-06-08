@@ -105,7 +105,9 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     }
 
     _newWorkout(e){
-        const validInputs = (...inputs) => inputs.every(inp => Number.isFinite(inp))
+        // helper functions
+        const validInputs = (...inputs) => inputs.every(inp => Number.isFinite(inp));
+        const allPositives = (...inputs) => inputs.every(inp => inp > 0);
 
         e.preventDefault();
 
@@ -123,7 +125,8 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
                 // !Number.isFinite(distance) ||
                 // !Number.isFinite(duration) ||
                 // !Number.isFinite(cadence)
-                !validInputs(distance, duration, cadence)
+                !validInputs(distance, duration, cadence) ||
+                !allPositives(distance, duration, cadence)
             )
                 return alert('Input has to be positive numbers!')
         }
@@ -131,7 +134,8 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         if (type === 'cycling') {
             const elevation = +inputElevation.value;
 
-            if(!validInputs(distance, duration, elevation))
+            if(!validInputs(distance, duration, elevation) ||
+            !allPositives(distance, duration))
                 return alert('Input has to be positive numbers!')
         }
         // Add new objects to the workout array
