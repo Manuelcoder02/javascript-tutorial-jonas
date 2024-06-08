@@ -105,23 +105,58 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     }
 
     _newWorkout(e){
+        const validInputs = (...inputs) => inputs.every(inp => Number.isFinite(inp))
+
         e.preventDefault();
+
+        // Get data from the form
+        const type = inputType.value;
+        const distance = +inputDistance.value;
+        const duration = +inputDuration.value;
+
+        
+        // If workout running, create a running object
+        if (type === 'running') {
+            // Check if data is valid
+            const cadence = +inputCadence.value;
+            if(
+                // !Number.isFinite(distance) ||
+                // !Number.isFinite(duration) ||
+                // !Number.isFinite(cadence)
+                !validInputs(distance, duration, cadence)
+            )
+                return alert('Input has to be positive numbers!')
+        }
+        // If workout cycling, create a cycling object
+        if (type === 'cycling') {
+            const elevation = +inputElevation.value;
+
+            if(!validInputs(distance, duration, elevation))
+                return alert('Input has to be positive numbers!')
+        }
+        // Add new objects to the workout array
+        // Display marker
+        const { lat, lng } = this.#mapEvent.latlng;
     
-            // clear input fields
+        L.marker([lat, lng]).addTo(this.#map)
+    .bindPopup(L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: 'running-popup',
+    })).setPopupContent('Workout')
+    .openPopup();
+
+        // Render workout on map as a marker
+
+        // Render workout on the list
+        
+    
+        // Hide input form + clear input fields
             inputCadence.value = inputDistance.value = inputDuration.value = inputElevation.value = '';
     
-            // Display marker
-            const { lat, lng } = this.#mapEvent.latlng;
-    
-            L.marker([lat, lng]).addTo(this.#map)
-        .bindPopup(L.popup({
-            maxWidth: 250,
-            minWidth: 100,
-            autoClose: false,
-            closeOnClick: false,
-            className: 'running-popup',
-        })).setPopupContent('Workout')
-        .openPopup();
+            
     }
 }
 
