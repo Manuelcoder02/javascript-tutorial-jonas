@@ -191,7 +191,7 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         closeOnClick: false,
         className: `${workout.type}-popup`,
     }))
-    .setPopupContent('Workout')
+    .setPopupContent(`${workout.type === 'running' ? '🏃‍♂️': '🚴‍♀️'} ${workout.description}`)
     .openPopup();
     }
 
