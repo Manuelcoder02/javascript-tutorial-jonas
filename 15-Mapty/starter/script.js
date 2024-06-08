@@ -81,6 +81,7 @@ class App {
         form.addEventListener('submit', this._newWorkout.bind(this))
     
         inputType.addEventListener('change', this._toggleElevationField)
+        containerWorkouts.addEventListener('click', this._moveToPopup)
     }
 
     _getPosition(){if (navigator.geolocation) 
@@ -242,8 +243,17 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         
         form.insertAdjacentHTML('afterend', html);
     }
+
+    _moveToPopup(e) {
+        const workoutEl = e.target.closest('workout');
+        console.log(workoutEl);
+
+        if(!workoutEl) return;
+
+        
+    }
 }
 
-const app = new App();
+const app = new App();.
    
     
