@@ -81,7 +81,7 @@ class App {
         form.addEventListener('submit', this._newWorkout.bind(this))
     
         inputType.addEventListener('change', this._toggleElevationField)
-        containerWorkouts.addEventListener('click', this._moveToPopup)
+        containerWorkouts.addEventListener('click', this._moveToPopup.bind(this))
     }
 
     _getPosition(){if (navigator.geolocation) 
@@ -245,15 +245,16 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     }
 
     _moveToPopup(e) {
-        const workoutEl = e.target.closest('workout');
+        const workoutEl = e.target.closest('.workout');
         console.log(workoutEl);
 
         if(!workoutEl) return;
 
-        
+        const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id)
+        console.log(workout);
     }
 }
 
-const app = new App();.
+const app = new App();
    
     
