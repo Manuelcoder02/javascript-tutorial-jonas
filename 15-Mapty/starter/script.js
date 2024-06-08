@@ -152,16 +152,16 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         console.log(workout);
         
         // Render workout on map as a marker
-        this.renderWorkoutMarker(workout);
+        this._renderWorkoutMarker(workout);
 
         // Render workout on the list
-        
+        this._renderWorkout();
     
         // Hide input form + clear input fields
             inputCadence.value = inputDistance.value = inputDuration.value = inputElevation.value = '';
     
     }
-    renderWorkoutMarker(workout) {
+    _renderWorkoutMarker(workout) {
         L.marker(workout.coords)
         .addTo(this.#map)
         .bindPopup(L.popup({
@@ -173,6 +173,10 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     }))
     .setPopupContent('Workout')
     .openPopup();
+    }
+
+    _renderWorkout(workout) {
+
     }
 }
 
