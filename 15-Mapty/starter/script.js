@@ -160,7 +160,7 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             inputCadence.value = inputDistance.value = inputDuration.value = inputElevation.value = '';
     
     }
-    renderWorkoutMarker(workout) = {
+    renderWorkoutMarker(workout) {
         L.marker([lat, lng]).addTo(this.#map)
         .bindPopup(L.popup({
         maxWidth: 250,
