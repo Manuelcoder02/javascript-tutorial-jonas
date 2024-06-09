@@ -72,8 +72,9 @@ class Cycling extends Workout {
 ////////////////////////////////////////////////////////////
 // APPLICATION ARCHITECTURE 
 class App {
-    #map
-    #mapEvent
+    #map;
+    #mapZoomLevel;
+    #mapEvent;
     #workouts = [];
     constructor(){
         this._getPosition();
@@ -97,7 +98,7 @@ class App {
 
         const coords = [latitude, longitude];
 
-        this.#map = L.map('map').setView(coords, 13);
+        this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
 L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -246,12 +247,19 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 
     _moveToPopup(e) {
         const workoutEl = e.target.closest('.workout');
-        console.log(workoutEl);
+        // console.log(workoutEl);
 
         if(!workoutEl) return;
 
         const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id)
-        console.log(workout);
+        // console.log(workout);
+
+        this.#map.setView(workout.coords, this.#mapZoomLevel, {
+            animate: true,
+            pan: {
+                duration: 1,
+            }
+        })
     }
 }
 
