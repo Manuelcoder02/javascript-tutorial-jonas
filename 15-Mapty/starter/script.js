@@ -19,6 +19,7 @@ class Workout {
 
     date = new Date();
     id = (Date.now() + '').slice(-10);
+    clicks = 0;
     constructor(coords, distance, duration) {
         this.coords = coords; // [lat, lng]
         this.distance = distance; // in km
@@ -31,6 +32,10 @@ class Workout {
 
        this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on
        ${months[this.date.getMonth()]} ${this.date.getDate()}`
+    }
+
+    click(){
+        this.clicks++;
     }
 }
 
@@ -66,26 +71,25 @@ class Cycling extends Workout {
     }
 }
 
-// const run1 = new Running([31, -12], 5.2, 24, 178);
-// const cycling1 = new Cycling([31, -12], 27, 95, 523);
-// console.log(run1, cycling1);
+const run1 = new Running([31, -12], 5.2, 24, 178);
+const cycling1 = new Cycling([31, -12], 27, 95, 523);
+console.log(run1, cycling1);
 ////////////////////////////////////////////////////////////
 // APPLICATION ARCHITECTURE 
 class App {
-    #map;
-    #mapZoomLevel;
-    #mapEvent;
+    #map
+    #mapZoomLevel = 13;
+    #mapEvent
     #workouts = [];
     constructor(){
         this._getPosition();
-
         form.addEventListener('submit', this._newWorkout.bind(this))
-    
         inputType.addEventListener('change', this._toggleElevationField)
         containerWorkouts.addEventListener('click', this._moveToPopup.bind(this))
     }
 
-    _getPosition(){if (navigator.geolocation) 
+    _getPosition(){
+        if (navigator.geolocation) 
         navigator.geolocation.getCurrentPosition(this._loadMap.bind(this), function() {
             alert('Could not get your position!')
         })
@@ -94,18 +98,18 @@ class App {
     _loadMap(position){
         const {latitude} = position.coords;
         const {longitude} = position.coords;
-        console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+        // console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
         const coords = [latitude, longitude];
 
         this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
-L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(this.#map);
+        L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(this.#map);
 
-// Handling click events on map
-    this.#map.on('click', this._showForm.bind(this) )
+         // Handling click events on map
+        this.#map.on('click', this._showForm.bind(this) )
     }
 
     _showForm(mapE){
@@ -257,10 +261,13 @@ L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         this.#map.setView(workout.coords, this.#mapZoomLevel, {
             animate: true,
             pan: {
-                duration: 1,
-            }
-        })
-    }
+              duration: 1,
+            },
+          });
+
+          // using the public interface
+          workout.click();
+        }
 }
 
 const app = new App();
