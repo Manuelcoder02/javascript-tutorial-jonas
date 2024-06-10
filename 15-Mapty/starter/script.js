@@ -71,9 +71,9 @@ class Cycling extends Workout {
     }
 }
 
-const run1 = new Running([31, -12], 5.2, 24, 178);
-const cycling1 = new Cycling([31, -12], 27, 95, 523);
-console.log(run1, cycling1);
+// const run1 = new Running([31, -12], 5.2, 24, 178);
+// const cycling1 = new Cycling([31, -12], 27, 95, 523);
+// console.log(run1, cycling1);
 ////////////////////////////////////////////////////////////
 // APPLICATION ARCHITECTURE 
 class App {
@@ -82,10 +82,15 @@ class App {
     #mapEvent
     #workouts = [];
     constructor(){
+        // Get user's position
         this._getPosition();
+
+        // Attach event handlers
         form.addEventListener('submit', this._newWorkout.bind(this))
         inputType.addEventListener('change', this._toggleElevationField)
         containerWorkouts.addEventListener('click', this._moveToPopup.bind(this))
+
+        // Set localStorage
     }
 
     _getPosition(){
@@ -185,6 +190,9 @@ class App {
     
         // Hide input form + clear input fields
         this._hideForm();
+
+        // Set local storage to all workouts
+        this._setLocalStorage();
     
     }
     _renderWorkoutMarker(workout) {
@@ -267,7 +275,11 @@ class App {
 
           // using the public interface
           workout.click();
-        }
+    }
+
+    _setLocalStorage() {
+        localStorage.setItem('workouts', JSON.stringify(this.#workouts))
+    }
 }
 
 const app = new App();
