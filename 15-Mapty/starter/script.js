@@ -118,6 +118,9 @@ class App {
 
          // Handling click events on map
         this.#map.on('click', this._showForm.bind(this) )
+        this.#workouts.forEach(work => {
+            this._renderWorkoutMarker(work)
+          })
     }
 
     _showForm(mapE){
@@ -289,6 +292,8 @@ class App {
       console.log(data);
 
       if(!data) return
+
+
       this.#workouts = data;
       this.#workouts.forEach(work => {
         this._renderWorkout(work)
