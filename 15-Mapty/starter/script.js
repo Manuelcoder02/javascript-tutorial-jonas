@@ -34,9 +34,9 @@ class Workout {
        ${months[this.date.getMonth()]} ${this.date.getDate()}`
     }
 
-    click(){
-        this.clicks++;
-    }
+    // click(){
+    //     this.clicks++;
+    // }
 }
 
 class Running extends Workout {
@@ -106,7 +106,7 @@ class App {
     _loadMap(position){
         const {latitude} = position.coords;
         const {longitude} = position.coords;
-        // console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+        
 
         const coords = [latitude, longitude];
 
@@ -186,8 +186,7 @@ class App {
         }
         // Add new objects to the workout array
         this.#workouts.push(workout);
-        console.log(workout);
-        
+     
         // Render workout on map as a marker
         this._renderWorkoutMarker(workout);
 
@@ -265,12 +264,12 @@ class App {
 
     _moveToPopup(e) {
         const workoutEl = e.target.closest('.workout');
-        // console.log(workoutEl);
+        
 
         if(!workoutEl) return;
 
         const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id)
-        // console.log(workout);
+        
 
         this.#map.setView(workout.coords, this.#mapZoomLevel, {
             animate: true,
@@ -280,7 +279,7 @@ class App {
           });
 
           // using the public interface
-          workout.click();
+        //   workout.click();
     }
 
     _setLocalStorage() {
@@ -289,7 +288,7 @@ class App {
 
     _getLocalStorage() {
       const data = JSON.parse(localStorage.getItem('workouts'));
-      console.log(data);
+      
 
       if(!data) return
 
