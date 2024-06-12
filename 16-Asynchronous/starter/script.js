@@ -11,6 +11,8 @@ request.send();
 request.addEventListener('load', function(){
     const [data] = JSON.parse(this.responseText)
     console.log(data);
+    console.log(data.flags);
+    console.log(data.currencies.NGN);
 
     const html = `
     <article class="country">
@@ -20,8 +22,10 @@ request.addEventListener('load', function(){
             <h4 class="country__region">${data.region}</h4>
             <p class="country__row"><span>👫</span>${data.population}</p>
             <p class="country__row"><span>🗣️</span>${data.languages}</p>
-            <p class="country__row"><span>💰</span>${data.currencies}</p>
+            <p class="country__row"><span>💰</span>${data.currencies.NGN.name} - ${data.currencies.NGN.symbol}</p>
           </div>
         </article>
     `
+
+    
 })
