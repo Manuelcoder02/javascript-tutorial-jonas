@@ -43,6 +43,11 @@ const countriesContainer = document.querySelector('.countries');
 // getCountryData('china')
 
 const renderCountry = function(data) {
+  const [keyL, valueL] = Object.entries(data.languages)[0]
+     const cur = Object.entries(data.currencies)[0];
+     const curr = Object.values(cur)[1]
+     console.log(curr.name);
+
   const html = `
       <article class="country">
             <img class="country__img" src="${data.flags.png}" />
@@ -55,9 +60,13 @@ const renderCountry = function(data) {
             </div>
           </article>
       `
+
+      countriesContainer.insertAdjacentHTML('beforeend', html)
+      countriesContainer.style.opacity = 1;
 }
 
 const getCountryAndNeighbour = function(country) {
+  // AJAX call country 1
   const request = new XMLHttpRequest();
   request.open('GET', `https://restcountries.com/v3.1/name/${country}`)
   request.send();
@@ -65,20 +74,29 @@ const getCountryAndNeighbour = function(country) {
   request.addEventListener('load', function(){
       const [data] = JSON.parse(this.responseText)
       console.log(data);
-      console.log(data.flags);
-      console.log(data.languages.eng);
       
-      const [keyL, valueL] = Object.entries(data.languages)[0]
-     const cur = Object.entries(data.currencies)[0];
-     const curr = Object.values(cur)[1]
-     console.log(curr.name);
-      
-  
-        
-      countriesContainer.insertAdjacentHTML('beforeend', html)
-      countriesContainer.style.opacity = 1;
+     // Render country 1
+       renderCountry(data);
+    
+    // Get neighbour country (2)
+    const [n1, n2, n3, n4] = data.borders;
+    // console.log(n1);
+
+    if (!n1 || !n2 || !n3 || !n4) return;
+    // AJAX call country 2
+    const request2 = new XMLHttpRequest();
+    request2.open('GET', `https://restcountries.com/v3.1/alpha/${n1}`)
+    request2.send();
+    
+    request2.addEventListener('load', function(){
+      const [dataNeighbour] = JSON.parse(this.responseText)
+      console.log(dataNeighbour);
+
+      // Render country 2
+      renderCountry(dataNeighbour)
+    })
   })
   }
-  getCountryData('nigeria')
+  getCountryAndNeighbour('nigeria')
   // getCountryData('ghana')
   // getCountryData('china')
