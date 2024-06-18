@@ -42,14 +42,14 @@ const countriesContainer = document.querySelector('.countries');
 // getCountryData('ghana')
 // getCountryData('china')
 
-const renderCountry = function(data) {
+const renderCountry = function(data, className = '') {
   const [keyL, valueL] = Object.entries(data.languages)[0]
      const cur = Object.entries(data.currencies)[0];
      const curr = Object.values(cur)[1]
      console.log(curr.name);
 
   const html = `
-      <article class="country">
+      <article class="country ${className}">
             <img class="country__img" src="${data.flags.png}" />
             <div class="country__data">
               <h3 class="country__name">${data.name.common}</h3>
@@ -79,13 +79,13 @@ const getCountryAndNeighbour = function(country) {
        renderCountry(data);
     
     // Get neighbour country (2)
-    const [n1, n2, n3, n4] = data.borders;
-    // console.log(n1);
+    const [neighbour] = data.borders;
+    console.log(neighbour);
 
-    if (!n1 || !n2 || !n3 || !n4) return;
+    if (!neighbour) return;
     // AJAX call country 2
     const request2 = new XMLHttpRequest();
-    request2.open('GET', `https://restcountries.com/v3.1/alpha/${n1}`)
+    request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`)
     request2.send();
     
     request2.addEventListener('load', function(){
@@ -93,10 +93,21 @@ const getCountryAndNeighbour = function(country) {
       console.log(dataNeighbour);
 
       // Render country 2
-      renderCountry(dataNeighbour)
+      renderCountry(dataNeighbour, 'neighbour')
     })
   })
   }
-  getCountryAndNeighbour('nigeria')
-  // getCountryData('ghana')
-  // getCountryData('china')
+  // getCountryAndNeighbour('nigeria')
+  // getCountryAndNeighbour('ghana')
+  getCountryAndNeighbour('china')
+
+
+  setTimeout(()=> {
+    console.log('1 Seconds passed')
+    setTimeout(()=> {
+      console.log('2 Seconds passed'), 1000})
+      setTimeout(()=> {
+        console.log('3 Seconds passed'), 1000})
+        setTimeout(()=> {
+          console.log('4 Seconds passed'), 1000})
+    , 1000})
