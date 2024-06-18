@@ -114,8 +114,11 @@ const countriesContainer = document.querySelector('.countries');
 
 
 
-// const request = new XMLHttpRequest();
-// request.open('GET', `https://restcountries.com/v3.1/name/${country}`)
+const getCountryData = function(country) {
+  fetch(`https://restcountries.com/v3.1/name/
+    ${country}`).then(function(response){
+      console.log(response);
+    })
+}
 
-const request = fetch(`https://restcountries.com/v3.1/name/nigeria`)
-console.log(request);
+getCountryData('nigeria')
