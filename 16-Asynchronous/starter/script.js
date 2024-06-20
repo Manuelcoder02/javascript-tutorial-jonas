@@ -43,10 +43,10 @@ const countriesContainer = document.querySelector('.countries');
 // // getCountryData('china')
 
 const renderCountry = function(data, className = '') {
-  const [keyL, valueL] = Object.entries(data.languages)[0]
-     const cur = Object.entries(data.currencies)[0];
-     const curr = Object.values(cur)[1]
-     console.log(curr.name);
+const [keyL, valueL] = Object.entries(data.languages)[0]
+const cur = Object.entries(data.currencies)[0];
+const curr = Object.values(cur)[1]
+console.log(valueL);
 
   const html = `
       <article class="country ${className}">
@@ -127,12 +127,24 @@ const renderCountry = function(data, className = '') {
 // }
 
 const getCountryData = country => {
+  // Country 1
   fetch(`https://restcountries.com/v3.1/name/${country}
 `).then(response => {
       return response.json()
-    }).then(data => {
-      renderCountry(data[0])
+      // console.log(response.json());
     })
+    .then(data => {
+      renderCountry(data[0]);
+      console.log(data[0]);
+      const neighbour = data[0].borders[0];
+
+      if(!neighbour) returns;
+
+      // Country 2
+     return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => renderCountry(data[0], 'neighbour'))
 }
 
 getCountryData('nigeria')
