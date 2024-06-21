@@ -146,5 +146,7 @@ const getCountryData = country => {
     .then(response => response.json())
     .then(data => renderCountry(data[0], 'neighbour'))
 }
+btn.addEventListener('click', function(){
 
-getCountryData('nigeria')
+  getCountryData('nigeria');
+})
