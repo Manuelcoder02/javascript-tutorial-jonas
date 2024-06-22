@@ -3,6 +3,33 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
+const renderCountry = function(data, className = '') {
+  const [keyL, valueL] = Object.entries(data.languages)[0]
+  const cur = Object.entries(data.currencies)[0];
+  const curr = Object.values(cur)[1]
+  console.log(valueL);
+
+  const html = `
+      <article class="country ${className}">
+            <img class="country__img" src="${data.flags.png}" />
+            <div class="country__data">
+              <h3 class="country__name">${data.name.common}</h3>
+              <h4 class="country__region">${data.region}</h4>
+              <p class="country__row"><span>👫</span>${(+data.population / 1000000).toFixed(1)}</p>
+              <p class="country__row"><span>🗣️</span>${valueL}</p>
+              <p class="country__row"><span>💰</span>${curr.name}</p>
+            </div>
+          </article>
+      `
+
+      countriesContainer.insertAdjacentHTML('beforeend', html)
+      // countriesContainer.style.opacity = 1;
+}
+
+const renderError = function(msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg)
+  // countriesContainer.style.opacity = 1;
+}
 // /////////////////////////////////////
 // // const getCountryData = function(country) {
 // // const request = new XMLHttpRequest();
@@ -42,28 +69,7 @@ const countriesContainer = document.querySelector('.countries');
 // // getCountryData('ghana')
 // // getCountryData('china')
 
-const renderCountry = function(data, className = '') {
-const [keyL, valueL] = Object.entries(data.languages)[0]
-const cur = Object.entries(data.currencies)[0];
-const curr = Object.values(cur)[1]
-console.log(valueL);
 
-  const html = `
-      <article class="country ${className}">
-            <img class="country__img" src="${data.flags.png}" />
-            <div class="country__data">
-              <h3 class="country__name">${data.name.common}</h3>
-              <h4 class="country__region">${data.region}</h4>
-              <p class="country__row"><span>👫</span>${(+data.population / 1000000).toFixed(1)}</p>
-              <p class="country__row"><span>🗣️</span>${valueL}</p>
-              <p class="country__row"><span>💰</span>${curr.name}</p>
-            </div>
-          </article>
-      `
-
-      countriesContainer.insertAdjacentHTML('beforeend', html)
-      countriesContainer.style.opacity = 1;
-}
 
 // const getCountryAndNeighbour = function(country) {
 //   // AJAX call country 1
@@ -129,10 +135,7 @@ console.log(valueL);
 const getCountryData = country => {
   // Country 1
   fetch(`https://restcountries.com/v3.1/name/${country}
-`).then(response => {
-      return response.json()
-      // console.log(response.json());
-    })
+`).then(response => response.json())
     .then(data => {
       renderCountry(data[0]);
       console.log(data[0]);
@@ -145,8 +148,15 @@ const getCountryData = country => {
     })
     .then(response => response.json())
     .then(data => renderCountry(data[0], 'neighbour'))
+    .catch(err => {console.error(`${err} 🔥💥💥`),
+    renderError(`Something went wrong 🔥💥💥 ${err.message}. Try again later `)})
+    .finally(()=> {
+      countriesContainer.style.opacity = 1;
+    })
 }
 btn.addEventListener('click', function(){
 
   getCountryData('nigeria');
 })
+
+getCountryData('sfsafsfsfsf');
