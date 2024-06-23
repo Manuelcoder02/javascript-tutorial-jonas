@@ -216,37 +216,43 @@ const renderCountry = function (data, className = '') {
 // 6. Now it's time to use the received data to render a country. So take the relevant
 // attribute from the geocoding API result, and plug it into the countries API that
 // we have been using.
-const whereAmI = function (lat, lng) {
-  fetch(
-    `https://geocode.xyz/${lat},${lng}?geoit=json&auth=177995075472916719155x118314`
-  )
-    .then(response => {
-      // console.log(response.json());
+// const whereAmI = function (lat, lng) {
+//   fetch(
+//     `https://geocode.xyz/${lat},${lng}?geoit=json&auth=177995075472916719155x118314`
+//   )
+//     .then(response => {
+//       // console.log(response.json());
 
-      if (!response.ok)
-        throw new Error(
-          `Problem with geocoding. ${response.status} not found!`
-        );
+//       if (!response.ok)
+//         throw new Error(
+//           `Problem with geocoding. ${response.status} not found!`
+//         );
 
-      return response.json();
-    })
-    .then(data => {
-      // console.log(data),
-      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
-      // console.log(`You are in ${data.city}, ${data.country}`);
-    })
-    .then(response => {
-      // console.log(response.json()),
-      return response.json();
-    })
-    .then(data => {
-      // console.log(data[1]),
-      renderCountry(data[0]);
-    });
-  // .catch(err => console.log(`${err.message} 💥💥💥💥`));
-};
+//       return response.json();
+//     })
+//     .then(data => {
+//       // console.log(data),
+//       return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+//       // console.log(`You are in ${data.city}, ${data.country}`);
+//     })
+//     .then(response => {
+//       // console.log(response.json()),
+//       return response.json();
+//     })
+//     .then(data => {
+//       // console.log(data[1]),
+//       renderCountry(data[0]);
+//     });
+//   // .catch(err => console.log(`${err.message} 💥💥💥💥`));
+// };
 
-whereAmI(19.037, 72.873);
-whereAmI(52.508, 13.381);
-whereAmI(-33.933, 18.474);
+// whereAmI(19.037, 72.873);
+// whereAmI(52.508, 13.381);
+// whereAmI(-33.933, 18.474);
 // 177995075472916719155x118314 - API AUTH
+
+// DAY 121 - EVENT LOOP IN PRACTICE
+console.log('Test start');
+setTimeout(() => console.log('0 sec timer'), 0);
+Promise.resolve('Resolved promise 1').then(res => console.log(res));
+console.log('Test end');
