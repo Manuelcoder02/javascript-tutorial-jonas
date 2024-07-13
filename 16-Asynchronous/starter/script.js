@@ -28,10 +28,10 @@ const renderCountry = function (data, className = '') {
   countriesContainer.style.opacity = 1;
 };
 
-// const renderError = function (msg) {
-//   countriesContainer.insertAdjacentText('beforeend', msg);
-//   // countriesContainer.style.opacity = 1;
-// };
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  // countriesContainer.style.opacity = 1;
+};
 // /////////////////////////////////////
 // // const getCountryData = function(country) {
 // // const request = new XMLHttpRequest();
@@ -347,49 +347,100 @@ const renderCountry = function (data, className = '') {
 
 // CODING CHALLENGE 2
 
-const wait = seconds => {
-  return new Promise(resolve => {
-    setTimeout(resolve, seconds * 1000);
-  });
-};
-const imageContainer = document.querySelector('.images');
+// const wait = seconds => {
+//   return new Promise(resolve => {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+// const imageContainer = document.querySelector('.images');
 
-const createImage = function (imgPath) {
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const img = document.createElement('img');
+//     img.src = imgPath;
+
+//     img.addEventListener('load', function () {
+//       imageContainer.append(img);
+//       resolve(img);
+//     });
+
+//     img.addEventListener('error', function () {
+//       reject(new Error('Image NOT found'));
+//     });
+//   });
+// };
+
+// let currentImage;
+
+// createImage('./img/img-1.jpg')
+//   .then(img => {
+//     currentImage = img;
+//     console.log('Image one loaded');
+
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImage.style.display = 'none';
+//     return createImage('./img/img-2.jpg');
+//   })
+//   .then(img => {
+//     currentImage = img;
+//     console.log('Image two loaded');
+
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImage.style.display = 'none';
+//   })
+//   .catch(err => console.error(err));
+
+// DAY 123 - CONSUMING PROMISES WITH ASYNC AWAIT
+
+const getPosition = function () {
   return new Promise(function (resolve, reject) {
-    const img = document.createElement('img');
-    img.src = imgPath;
-
-    img.addEventListener('load', function () {
-      imageContainer.append(img);
-      resolve(img);
-    });
-
-    img.addEventListener('error', function () {
-      reject(new Error('Image NOT found'));
-    });
+    navigator.geolocation.getCurrentPosition(resolve, reject);
   });
 };
+const whereAmI = async function (coutry) {
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
 
-let currentImage;
+    // Reverse geocoding
+    const resGeo = await fetch(
+      `https://geocode.xyz/${lat},${lng}?geoit=json&auth=177995075472916719155x118314`
+    );
+    if (!resGeo.ok) throw new Error('Problem getting location data');
+    const dataGeo = await resGeo.json();
+    // console.log(dataGeo);
 
-createImage('./img/img-1.jpg')
-  .then(img => {
-    currentImage = img;
-    console.log('Image one loaded');
+    // Country data
+    // fetch(`https://restcountries.com/v3.1/name/${country}`).then(res =>
+    //   console.log(res)
+    // );
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${dataGeo.country}`
+    );
+    if (!res.ok) throw new Error('Problem getting country data');
+    const data = await res.json();
+    // console.log(data);
+    renderCountry(data[0]);
+  } catch (err) {
+    console.error(`💥 ${err}`);
+    renderError(` 💥 ${err.message}`);
+  }
+};
+whereAmI();
+whereAmI();
+whereAmI();
+console.log('FIRST');
 
-    return wait(2);
-  })
-  .then(() => {
-    currentImage.style.display = 'none';
-    return createImage('./img/img-2.jpg');
-  })
-  .then(img => {
-    currentImage = img;
-    console.log('Image two loaded');
-
-    return wait(2);
-  })
-  .then(() => {
-    currentImage.style.display = 'none';
-  })
-  .catch(err => console.error(err));
+// ERROR HANDLING WITH THE TRY...CATCH
+// try {
+//   let y = 1;
+//   const x = 2;
+//   x = 3;
+// } catch (err) {
+//   alert(err.message);
+// }
