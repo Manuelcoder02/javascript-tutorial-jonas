@@ -432,8 +432,7 @@ const whereAmI = async function (coutry) {
   }
 };
 whereAmI();
-whereAmI();
-whereAmI();
+
 console.log('FIRST');
 
 // ERROR HANDLING WITH THE TRY...CATCH
