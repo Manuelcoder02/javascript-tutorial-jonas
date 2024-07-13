@@ -252,11 +252,95 @@ const renderCountry = function (data, className = '') {
 // 177995075472916719155x118314 - API AUTH
 
 // DAY 121 - EVENT LOOP IN PRACTICE
-console.log('Test start');
-setTimeout(() => console.log('0 sec timer'), 0);
-Promise.resolve('Resolved promise 1').then(res => console.log(res));
-Promise.resolve('Resolved promise 2').then(res => {
-  for (let i = 0; i < 100000000; i++) {}
-  console.log(res);
-});
-console.log('Test end');
+// console.log('Test start');
+// setTimeout(() => console.log('0 sec timer'), 0);
+// Promise.resolve('Resolved promise 1').then(res => console.log(res));
+// Promise.resolve('Resolved promise 2').then(res => {
+//   for (let i = 0; i < 100000000; i++) {}
+//   console.log(res);
+// });
+// console.log('Test end');
+
+// DAY 122 - BUILDING A NEW PROMISE
+
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log('Lottery draw is happeneing 🔮');
+//   setTimeout(function () {
+//     if (Math.random() > 0.5) {
+//       resolve('You WIN 💰');
+//     } else {
+//       reject(new Error('You LOST your money 💩'));
+//     }
+//   }, 2000);
+// });
+
+// lotteryPromise
+//   .then(response => console.log(response))
+//   .catch(err => console.error(err));
+
+// // Promisifying set timeout function
+// const wait = seconds => {
+//   return new Promise(resolve => {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// wait(2)
+//   .then(() => {
+//     console.log('I waited for 2 seconds');
+//     return wait(1);
+//   })
+//   .then(() => console.log('I waited for 1 second'));
+
+// Promise.resolve('abc').then(x => console.log(x));
+// Promise.reject(new Error('Problem!')).catch(err => console.error(err));
+
+// PROMISIFYING GEOLOCATION API
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+// getPosition().then(pos => console.log(pos));
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+
+      return fetch(
+        `https://geocode.xyz/${lat},${lng}?geoit=json&auth=177995075472916719155x118314`
+      );
+    })
+    .then(response => {
+      // console.log(response.json());
+
+      if (!response.ok)
+        throw new Error(
+          `Problem with geocoding. ${response.status} not found!`
+        );
+
+      return response.json();
+    })
+    .then(data => {
+      // console.log(data),
+      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+      // console.log(`You are in ${data.city}, ${data.country}`);
+    })
+    .then(response => {
+      // console.log(response.json()),
+      return response.json();
+    })
+    .then(data => {
+      // console.log(data[1]),
+      renderCountry(data[0]);
+    });
+  // .catch(err => console.log(`${err.message} 💥💥💥💥`));
+};
+
+btn.addEventListener('click', whereAmI);
