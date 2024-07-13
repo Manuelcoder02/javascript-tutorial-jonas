@@ -296,51 +296,100 @@ const renderCountry = function (data, className = '') {
 // Promise.reject(new Error('Problem!')).catch(err => console.error(err));
 
 // PROMISIFYING GEOLOCATION API
-const getPosition = function () {
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     // navigator.geolocation.getCurrentPosition(
+//     //   position => resolve(position),
+//     //   err => reject(err)
+//     // );
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// // getPosition().then(pos => console.log(pos));
+
+// const whereAmI = function () {
+//   getPosition()
+//     .then(pos => {
+//       const { latitude: lat, longitude: lng } = pos.coords;
+
+//       return fetch(
+//         `https://geocode.xyz/${lat},${lng}?geoit=json&auth=177995075472916719155x118314`
+//       );
+//     })
+//     .then(response => {
+//       // console.log(response.json());
+
+//       if (!response.ok)
+//         throw new Error(
+//           `Problem with geocoding. ${response.status} not found!`
+//         );
+
+//       return response.json();
+//     })
+//     .then(data => {
+//       // console.log(data),
+//       return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+//       // console.log(`You are in ${data.city}, ${data.country}`);
+//     })
+//     .then(response => {
+//       // console.log(response.json()),
+//       return response.json();
+//     })
+//     .then(data => {
+//       // console.log(data[1]),
+//       renderCountry(data[0]);
+//     });
+//   // .catch(err => console.log(`${err.message} 💥💥💥💥`));
+// };
+
+// btn.addEventListener('click', whereAmI);
+
+// CODING CHALLENGE 2
+
+const wait = seconds => {
+  return new Promise(resolve => {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+const imageContainer = document.querySelector('.images');
+
+const createImage = function (imgPath) {
   return new Promise(function (resolve, reject) {
-    // navigator.geolocation.getCurrentPosition(
-    //   position => resolve(position),
-    //   err => reject(err)
-    // );
-    navigator.geolocation.getCurrentPosition(resolve, reject);
+    const img = document.createElement('img');
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      imageContainer.append(img);
+      resolve(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('Image NOT found'));
+    });
   });
 };
 
-// getPosition().then(pos => console.log(pos));
+let currentImage;
 
-const whereAmI = function () {
-  getPosition()
-    .then(pos => {
-      const { latitude: lat, longitude: lng } = pos.coords;
+createImage('./img/img-1.jpg')
+  .then(img => {
+    currentImage = img;
+    console.log('Image one loaded');
 
-      return fetch(
-        `https://geocode.xyz/${lat},${lng}?geoit=json&auth=177995075472916719155x118314`
-      );
-    })
-    .then(response => {
-      // console.log(response.json());
+    return wait(2);
+  })
+  .then(() => {
+    currentImage.style.display = 'none';
+    return createImage('./img/img-2.jpg');
+  })
+  .then(img => {
+    currentImage = img;
+    console.log('Image two loaded');
 
-      if (!response.ok)
-        throw new Error(
-          `Problem with geocoding. ${response.status} not found!`
-        );
-
-      return response.json();
-    })
-    .then(data => {
-      // console.log(data),
-      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
-      // console.log(`You are in ${data.city}, ${data.country}`);
-    })
-    .then(response => {
-      // console.log(response.json()),
-      return response.json();
-    })
-    .then(data => {
-      // console.log(data[1]),
-      renderCountry(data[0]);
-    });
-  // .catch(err => console.log(`${err.message} 💥💥💥💥`));
-};
-
-btn.addEventListener('click', whereAmI);
+    return wait(2);
+  })
+  .then(() => {
+    currentImage.style.display = 'none';
+  })
+  .catch(err => console.error(err));
