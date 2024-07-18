@@ -7,7 +7,7 @@ const renderCountry = function (data, className = '') {
   const [keyL, valueL] = Object.entries(data.languages)[0];
   const cur = Object.entries(data.currencies)[0];
   const curr = Object.values(cur)[1];
-  console.log(valueL);
+  // console.log(valueL);
 
   const html = `
       <article class="country ${className}">
@@ -426,15 +426,34 @@ const whereAmI = async function (coutry) {
     const data = await res.json();
     // console.log(data);
     renderCountry(data[0]);
+
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
   } catch (err) {
     console.error(`💥 ${err}`);
     renderError(` 💥 ${err.message}`);
   }
+
+  throw err;
 };
-whereAmI();
 
-console.log('FIRST');
+console.log('1: Will get location');
+// const city = whereAmI();
+// console.log(city);
 
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message}`))
+//   .finally(() => console.log('3: Finished getting location'));
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  } catch (err) {
+    console.error(`2: ${err.message}`);
+  }
+  console.log('3: Finished getting location');
+})();
 // ERROR HANDLING WITH THE TRY...CATCH
 // try {
 //   let y = 1;
