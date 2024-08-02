@@ -539,86 +539,86 @@ const getJSON = function (url, erroMsg = 'Something went wrong') {
 
 // CODING CHALLENGE 3
 
-const wait = seconds => {
-  return new Promise(resolve => {
-    setTimeout(resolve, seconds * 1000);
-  });
-};
-const imageContainer = document.querySelector('.images');
+// const wait = seconds => {
+//   return new Promise(resolve => {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+// const imageContainer = document.querySelector('.images');
 
-const createImage = function (imgPath) {
-  return new Promise(function (resolve, reject) {
-    const img = document.createElement('img');
-    img.src = imgPath;
+// const createImage = function (imgPath) {
+//   return new Promise(function (resolve, reject) {
+//     const img = document.createElement('img');
+//     img.src = imgPath;
 
-    img.addEventListener('load', function () {
-      imageContainer.append(img);
-      resolve(img);
-    });
+//     img.addEventListener('load', function () {
+//       imageContainer.append(img);
+//       resolve(img);
+//     });
 
-    img.addEventListener('error', function () {
-      reject(new Error('Image NOT found'));
-    });
-  });
-};
+//     img.addEventListener('error', function () {
+//       reject(new Error('Image NOT found'));
+//     });
+//   });
+// };
 
-let currentImage;
+// let currentImage;
 
-// createImage('./img/img-1.jpg')
-//   .then(img => {
-//     currentImage = img;
+// // createImage('./img/img-1.jpg')
+// //   .then(img => {
+// //     currentImage = img;
+// //     console.log('Image one loaded');
+
+// //     return wait(2);
+// //   })
+// //   .then(() => {
+// //     currentImage.style.display = 'none';
+// //     return createImage('./img/img-2.jpg');
+// //   })
+// //   .then(img => {
+// //     currentImage = img;
+// //     console.log('Image two loaded');
+
+// //     return wait(2);
+// //   })
+// //   .then(() => {
+// //     currentImage.style.display = 'none';
+// //   })
+// //   .catch(err => console.error(err));
+
+// const loadNPause = async function () {
+//   try {
+//     // Load image 1
+//     let img = await createImage('./img/img-1.jpg');
 //     console.log('Image one loaded');
+//     await wait(2);
 
-//     return wait(2);
-//   })
-//   .then(() => {
-//     currentImage.style.display = 'none';
-//     return createImage('./img/img-2.jpg');
-//   })
-//   .then(img => {
-//     currentImage = img;
+//     img.style.display = 'none';
+
+//     // Load image 2
+//     img = await createImage('./img/img-2.jpg');
 //     console.log('Image two loaded');
+//     await wait(2);
 
-//     return wait(2);
-//   })
-//   .then(() => {
-//     currentImage.style.display = 'none';
-//   })
-//   .catch(err => console.error(err));
+//     img.style.display = 'none';
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// };
 
-const loadNPause = async function () {
-  try {
-    // Load image 1
-    let img = await createImage('./img/img-1.jpg');
-    console.log('Image one loaded');
-    await wait(2);
+// // loadNPause();
 
-    img.style.display = 'none';
+// const loadAll = async function (imgArr) {
+//   try {
+//     const imgs = imgArr.map(async img => await createImage(img));
+//     console.log(imgs);
+//     const imgsEL = await Promise.all(imgs);
+//     console.log(imgsEL);
 
-    // Load image 2
-    img = await createImage('./img/img-2.jpg');
-    console.log('Image two loaded');
-    await wait(2);
+//     imgsEL.forEach(img => img.classList.add('parallel'));
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// };
 
-    img.style.display = 'none';
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-// loadNPause();
-
-const loadAll = async function (imgArr) {
-  try {
-    const imgs = imgArr.map(async img => await createImage(img));
-    console.log(imgs);
-    const imgsEL = await Promise.all(imgs);
-    console.log(imgsEL);
-
-    imgsEL.forEach(img => img.classList.add('parallel'));
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
+// loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
