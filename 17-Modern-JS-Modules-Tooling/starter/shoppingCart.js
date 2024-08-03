@@ -1,8 +1,14 @@
 // Exporting module
 console.log('Exporting module');
 
+// Blocking code
+console.log('Start fetching users');
+await fetch('https://jsonplaceholder.typicode.com/users');
+
+console.log('Finished fetching users');
+
 const shippingCost = 0;
-const cart = [];
+export const cart = [];
 
 export const addToCart = function (product, quantity) {
   cart.push({ product, quantity });
@@ -12,4 +18,9 @@ export const addToCart = function (product, quantity) {
 const totalPrice = 237;
 const totalQuantity = 20;
 
-export { totalPrice, totalQuantity };
+export { totalPrice, totalQuantity as tq };
+
+export default function (product, quantity) {
+  cart.push({ product, quantity });
+  console.log(`${quantity} ${product} was added to the cart`);
+}
