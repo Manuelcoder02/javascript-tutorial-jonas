@@ -9,59 +9,59 @@ console.log('Importing module');
 // ShoppingCart.addToCart('bread', 5);
 // console.log(ShoppingCart.totalPrice);
 
-import add, { cart } from './shoppingCart.js';
-add('pizza', 6);
-add('bread', 2);
-add('apples', 12);
+// import add, { cart } from './shoppingCart.js';
+// add('pizza', 6);
+// add('bread', 2);
+// add('apples', 12);
 
-console.log(cart);
+// console.log(cart);
 
-// Top-level await
-// const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-// const data = await res.json();
-// console.log(data);
+// // Top-level await
+// // const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+// // const data = await res.json();
+// // console.log(data);
 
-const getLastPost = async function () {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  const data = await res.json();
-  return { title: data.at(-1).title, text: data.at(-1).body };
-};
+// const getLastPost = async function () {
+//   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+//   const data = await res.json();
+//   return { title: data.at(-1).title, text: data.at(-1).body };
+// };
 
-const lastPost = getLastPost();
-console.log(lastPost);
+// const lastPost = getLastPost();
+// console.log(lastPost);
 
-// Not very clean
-// lastPost.then(last => console.log(last));
+// // Not very clean
+// // lastPost.then(last => console.log(last));
 
-const lastPost2 = await getLastPost();
-console.log(lastPost2);
+// const lastPost2 = await getLastPost();
+// console.log(lastPost2);
 
-// MODULE PATTERN
-const ShoppingCart2 = (function () {
-  const cart = [];
-  const shippingCost = 10;
-  const totalPrice = 237;
-  const totalQuantity = 23;
+// // MODULE PATTERN
+// const ShoppingCart2 = (function () {
+//   const cart = [];
+//   const shippingCost = 10;
+//   const totalPrice = 237;
+//   const totalQuantity = 23;
 
-  const addToCart = function (product, quantity) {
-    cart.push({ product, quantity });
-    console.log(
-      `${quantity} ${product} was added to the cart (Shipping cost is ${shippingCost})`
-    );
-  };
+//   const addToCart = function (product, quantity) {
+//     cart.push({ product, quantity });
+//     console.log(
+//       `${quantity} ${product} was added to the cart (Shipping cost is ${shippingCost})`
+//     );
+//   };
 
-  const orderStock = function (product, quantity) {
-    cart.push({ product, quantity });
-    console.log(`${quantity} ${product} ordered from supplier`);
-  };
+//   const orderStock = function (product, quantity) {
+//     cart.push({ product, quantity });
+//     console.log(`${quantity} ${product} ordered from supplier`);
+//   };
 
-  return {
-    addToCart,
-    cart,
-    totalPrice,
-    totalQuantity,
-  };
-})();
+//   return {
+//     addToCart,
+//     cart,
+//     totalPrice,
+//     totalQuantity,
+//   };
+// })();
 
-ShoppingCart2.addToCart('apple', 4);
-ShoppingCart2.addToCart('pizza', 2);
+// ShoppingCart2.addToCart('apple', 4);
+// ShoppingCart2.addToCart('pizza', 2);
